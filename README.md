@@ -1,23 +1,21 @@
 # Basic Neural Network from Scratch
 
-This is a beginner-friendly Week 1 internship project for digit classification using a neural network built from scratch in Python.
+This project is a simple handwritten digit classifier that I built from scratch using Python and NumPy.
 
-The neural network logic is implemented with NumPy only. The `sklearn` digits dataset is used only for loading the dataset. No ML frameworks such as TensorFlow, PyTorch, Keras, or sklearn's neural-network models are used.
+I made it as a learning project to understand how a neural network works internally instead of using ready-made deep learning libraries. The main focus of this project is to practice the full flow step by step: forward propagation, loss calculation, backpropagation, parameter updates, and evaluation.
 
-## Project Features
+## About the project
 
-- Feedforward neural network with one hidden layer
-- Forward propagation
-- ReLU or sigmoid activation for the hidden layer
-- Softmax activation for the output layer
-- Cross-entropy loss
-- Manual backpropagation using NumPy
-- Gradient descent weight updates
-- Training loss and accuracy tracking
-- Test set evaluation
-- Sample prediction visualization
+- Built with `Python` and `NumPy`
+- Uses the `digits` dataset from `scikit-learn`
+- Classifies digits from `0` to `9`
+- Trains a neural network with one hidden layer
+- Saves loss and accuracy graphs after training
+- Saves a sample prediction image in the `plots/` folder
 
-## Project Structure
+`scikit-learn` is used only for loading the dataset. The neural network itself is implemented manually.
+
+## Project structure
 
 ```text
 basic-neural-network-from-scratch/
@@ -33,203 +31,110 @@ basic-neural-network-from-scratch/
 |-- .gitignore
 ```
 
-## Dataset
+## Dataset details
 
 This project uses the built-in `digits` dataset from `sklearn.datasets`.
 
-- Total samples: 1797
+- Total samples: `1797`
 - Image size: `8 x 8`
-- Flattened input size: `64`
-- Number of classes: `10` digits (`0` to `9`)
+- Input size after flattening: `64`
+- Output classes: `10`
 
-No separate download is needed. Installing `scikit-learn` is enough.
+No manual dataset download is needed.
 
-## Input Shape and Output Shape
+## Model details
 
-- Each digit image is `8 x 8`
-- The image is flattened into a vector of length `64`
-- So the input shape for training data is `(number_of_samples, 64)`
-- The labels are one-hot encoded into 10 values
-- So the output shape is `(number_of_samples, 10)`
-
-Example:
-
-- Input sample shape: `(64,)`
-- Batch input shape: `(1438, 64)` approximately
-- Output sample shape: `(10,)`
-
-## Model Architecture
+The model used in this project is a basic feedforward neural network:
 
 ```text
-Input Layer:   64 neurons
-Hidden Layer:  32 neurons
-Output Layer:  10 neurons
+Input layer:   64 neurons
+Hidden layer:  32 neurons
+Output layer:  10 neurons
 ```
 
-Hidden layer activation:
+- Hidden activation: `relu`
+- Optional hidden activation: `sigmoid`
+- Output activation: `softmax`
+- Loss function: `cross-entropy`
+- Learning method: `gradient descent`
 
-- `relu` by default
-- `sigmoid` is also implemented and can be used
-
-Output layer activation:
-
-- `softmax`
-
-## How Weights and Biases Are Initialized
-
-- `W1` and `W2` are initialized with small random values
-- `b1` and `b2` are initialized with zeros
-- For ReLU, the first layer uses He-style scaling: `sqrt(2 / input_size)`
-- For sigmoid, the first layer uses Xavier-style scaling: `sqrt(1 / input_size)`
-
-This helps training start in a stable way instead of using weights that are too large or too small.
-
-## Why Backpropagation Is Needed
-
-Backpropagation is the process that tells the network how much each weight and bias contributed to the error.
-
-Without backpropagation:
-
-- the model can make predictions
-- but it cannot learn from mistakes
-
-With backpropagation:
-
-- we compute gradients of the loss with respect to weights and biases
-- we move parameters in the opposite direction of the gradients
-- the loss decreases over time
-- the model becomes better at classification
-
-In short, backpropagation is what makes training possible.
-
-## How Training Works
+## How the project works
 
 1. Load the digits dataset
-2. Normalize input values by dividing by `16.0`
-3. One-hot encode the labels
+2. Normalize the input values
+3. Convert labels into one-hot encoded vectors
 4. Run forward propagation
-5. Compute cross-entropy loss
+5. Calculate loss
 6. Run backpropagation
-7. Update weights and biases using gradient descent
-8. Repeat for many epochs
-9. Plot loss and accuracy
-10. Evaluate on the test set
+7. Update weights and biases
+8. Repeat for multiple epochs
+9. Evaluate on test data
+10. Save graphs and sample predictions
 
-## VS Code Setup and Run Instructions
+## Files used in the project
 
-Open the project folder in VS Code, then open the integrated terminal and run these commands.
+- `main.py` runs the full project
+- `model.py` contains the neural network class
+- `utils.py` contains helper functions for dataset loading, preprocessing, accuracy, and plotting
+- `data/README.md` contains a short note about the dataset folder
+- `plots/` stores the generated output images
 
-### Windows PowerShell
+## How to run
+
+Open the project folder in VS Code or terminal and run:
 
 ```powershell
-cd basic-neural-network-from-scratch
 python -m venv venv
 .\venv\Scripts\Activate.ps1
 pip install -r requirements.txt
 python main.py
 ```
 
-If PowerShell blocks activation, run:
+If PowerShell blocks activation, run this once in the same terminal:
 
 ```powershell
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 .\venv\Scripts\Activate.ps1
 ```
 
-### If you already have the existing virtual environment in this folder
+## Output
 
-```powershell
-cd basic-neural-network-from-scratch
-.\venv\Scripts\Activate.ps1
-python main.py
-```
+After running the project, these files are created inside the `plots/` folder:
 
-## What the Program Does
+- `loss_curve.png`
+- `accuracy_curve.png`
+- `sample_predictions.png`
 
-When you run `main.py`, it will:
+The terminal also shows:
 
-- load and preprocess the dataset
-- train the neural network
-- print epoch-wise loss and accuracy
-- evaluate on the test data
-- save graphs inside the `plots/` folder
-- save a sample predictions image inside the `plots/` folder
+- training loss for each epoch
+- training accuracy for each epoch
+- final test loss
+- final test accuracy
+- a few sample predictions
 
-## Output Files
+## Changing the activation function
 
-After training, these files are saved:
-
-- `plots/loss_curve.png`
-- `plots/accuracy_curve.png`
-- `plots/sample_predictions.png`
-
-## Changing the Hidden Activation
-
-In `main.py`, change this line:
+In `main.py`, this line controls the hidden layer activation:
 
 ```python
 HIDDEN_ACTIVATION = "relu"
 ```
 
-You can switch it to:
+You can change it to:
 
 ```python
 HIDDEN_ACTIVATION = "sigmoid"
 ```
 
-## Common Mistakes and Fixes
+## What I learned from this project
 
-### 1. `ModuleNotFoundError`
+- how forward propagation works
+- how backpropagation updates weights
+- how one-hot encoding is used in classification
+- how loss and accuracy change during training
+- how to organize a small machine learning project clearly
 
-Cause:
+## Note
 
-- required packages are not installed
-
-Fix:
-
-```powershell
-pip install -r requirements.txt
-```
-
-### 2. PowerShell script execution is disabled
-
-Cause:
-
-- PowerShell blocks virtual environment activation
-
-Fix:
-
-```powershell
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
-.\venv\Scripts\Activate.ps1
-```
-
-### 3. Graphs do not appear in the folder
-
-Cause:
-
-- training stopped early due to an error
-- the `plots/` folder was not created yet
-
-Fix:
-
-- run `python main.py` again
-- check the error shown in the terminal
-
-### 4. Wrong Python interpreter in VS Code
-
-Cause:
-
-- VS Code may be using global Python instead of the project virtual environment
-
-Fix:
-
-- press `Ctrl + Shift + P`
-- choose `Python: Select Interpreter`
-- select the interpreter inside the project's `venv`
-
-## Notes
-
-- This project uses full-batch gradient descent for simplicity
-- The goal is clarity and learning, not production-level optimization
-- The neural network implementation is intentionally kept small and modular
+This project is made for learning and practice. The aim is to understand the logic of a neural network clearly, not to build a production-level model.

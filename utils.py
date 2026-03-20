@@ -20,7 +20,7 @@ def ensure_project_directories(project_root: Path) -> None:
     (project_root / "data").mkdir(exist_ok=True)
 
 
-def one_hot_encode(labels: np.darray, num_classes: int) -> np.ndarray:
+def one_hot_encode(labels: np.ndarray, num_classes: int) -> np.ndarray:
     """Convert integer labels like 3 into one-hot vectors like [0,0,0,1,...]."""
     if labels.ndim != 1:
         raise ValueError("Labels must be a 1D array for one-hot encoding.")
